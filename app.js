@@ -17,7 +17,10 @@ const db = mysql.createConnection({
 
 const publicDirectory= path.join(__dirname, './public');
 app.use(express.static(publicDirectory));
-
+//Wrapping data from any forms
+app.use(express.urlencoded({extended: false}));
+//parse JSON
+app.use(express.json());
 app.set('view engine', 'hbs');
 
 //Error checking in DB connection
@@ -30,16 +33,9 @@ db.connect((error) => {
     }
 });
 
-app.get("/",(req,res) => {
-    // res.send("<H1>Home Page</H1>")
-    res.render("index");
-});
-
-app.get("/register",(req,res) => {
-    // res.send("<H1>Home Page</H1>")
-    res.render("register");
-});
-
+//Define Routes
+app.use('/', require('./routes/pages'));
+app.use('/auth', require('./routes/auth'));
 //Creating port
 app.listen(5000, () =>{
     console.log("Server started at port 5000.");
