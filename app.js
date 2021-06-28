@@ -2,7 +2,7 @@ const express= require("express");
 const mysql= require("mysql");
 const dotenv= require("dotenv");
 const path= require("path");
-
+const cookieParser= require("cookie-parser");
 dotenv.config({ path: './.env'});
 
 const app =express();
@@ -21,6 +21,7 @@ app.use(express.static(publicDirectory));
 app.use(express.urlencoded({extended: false}));
 //parse JSON
 app.use(express.json());
+app.use(cookieParser()); 
 app.set('view engine', 'hbs');
 
 //Error checking in DB connection
